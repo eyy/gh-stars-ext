@@ -1,4 +1,7 @@
-# ⭐️ Search GitHub Stars
+<p align="center">
+<img src="https://i.imgur.com/mQX3uzx.png"/>
+<h1 align="center">⭐️ Search GitHub Stars ⭐️</h1>
+</p>
 
 A browser extension to quickly find things you starred and forgot about.
 
