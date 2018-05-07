@@ -1,6 +1,6 @@
 {
   "name": "gh-stars-ext",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Find your GitHub stars from the search bar",
   "scripts": {
     "start": "web-ext run",

@@ -1,6 +1,6 @@
 {
   "name": "Search GitHub Stars",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "⭐️ Find your GitHub stars from the search bar.",
   "homepage_url": "https://github.com/eyy/gh-stars-ext",
   "author": "eyy",
