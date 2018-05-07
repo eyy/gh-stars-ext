@@ -1,3 +1,5 @@
+/* global browser, fetch, Fuse */
+
 const baseUrl = 'https://github.com'
 const endpoint = user => `https://api.github.com/users/${user}/starred`
 
@@ -18,14 +20,28 @@ const fuseOpts = {
   ]
 }
 
-const getStars = _.throttle(function () {
-  console.log('getStars')
+function mem (fn, expire = 1000) {
+  let last
+  let res
+  return function () {
+    const now = +new Date()
+    if (res && last && now < last + expire) { return Promise.resolve(res) }
+
+    last = now
+    return fn()
+      .then(r => {
+        res = r
+        return r
+      })
+  }
+}
+
+const getStarred = mem(function () {
   return browser.storage.sync.get('user')
     .then(res => {
-      console.log('user', res.user)
-
       if (!res.user) {
-        return browser.runtime.openOptionsPage()
+        browser.runtime.openOptionsPage()
+        return
       }
 
       return fetch(endpoint(res.user))
@@ -35,7 +51,7 @@ const getStars = _.throttle(function () {
 
 function createSuggestions (text) {
   return projects => new Promise((resolve, reject) => {
-    if (!projects || !projects.length) { return reject() }
+    if (!projects || !projects.length) { return reject(new Error('No starred projects.')) }
 
     const fuse = new Fuse(projects, fuseOpts)
     let suggestions = fuse.search(text)
@@ -44,20 +60,20 @@ function createSuggestions (text) {
         description: p.name + ' - ' + p.description
       }))
 
-    if (suggestions.length) { resolve(suggestions) } else { reject() }
+    if (suggestions.length) { resolve(suggestions) } else { reject(new Error('No matched starred projects.')) }
   })
 }
 
 browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
-  getStars()
+  getStarred()
     .then(createSuggestions(text))
     .then(addSuggestions)
     .catch(err => {
       addSuggestions([{
         content: '',
-        description: `:( Error: ${err.message}`
+        description: `Error. ${err ? err.message : ''}`
       }])
-      throw new Error(err)
+      throw err
     })
 })
 

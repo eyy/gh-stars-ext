@@ -8,8 +8,7 @@
   "minimum_chrome_version": "50",
   "background": {
     "scripts": [
-      "lib/fuse.min.js",
-      "lib/lodash.min.js",
+      "vendor/fuse.min.js",
       "background.js"
     ]
   },
