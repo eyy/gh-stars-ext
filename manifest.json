@@ -1,0 +1,38 @@
+{
+  "name": "Search GitHub Stars",
+  "version": "1.0",
+  "description": "⭐️ Find your GitHub stars from the search bar.",
+  "homepage_url": "https://github.com/eyy/gh-stars-ext",
+  "author": "eyy",
+  "manifest_version": 2,
+  "minimum_chrome_version": "50",
+  "background": {
+    "scripts": [
+      "lib/fuse.min.js",
+      "lib/lodash.min.js",
+      "background.js"
+    ]
+  },
+  "omnibox": {
+    "keyword": "gh"
+  },
+  "permissions": [
+    "storage",
+    "https://api.github.com/*"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  },
+  "applications": {
+    "gecko": {
+      "id": "gh-stars-ext@example.com",
+      "strict_min_version": "52.0"
+    }
+  },
+  "icons": {
+    "48": "icon48.png",
+    "64": "icon64.png",
+    "128": "icon128.png"
+  }
+}
